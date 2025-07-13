@@ -24,6 +24,8 @@ namespace Task_Manager
             {
                 Console.Clear();
 
+                Console.WriteLine($"===== Task Manager =====\n");
+
                 // Drawing options, showing ">" for selected option
                 for (int i = 0; i < options.Length; i++)
                 {
