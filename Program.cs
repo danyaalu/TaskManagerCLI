@@ -13,10 +13,8 @@ namespace Task_Manager
             Menu();
         }
         
-        static void Menu()
-        {
-            string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
-
+        static int ShowMenu(string[] options)
+        { 
             int selectedIndex = 0;
             ConsoleKey key;
 
@@ -43,7 +41,7 @@ namespace Task_Manager
                 // Read a key without echoing into console
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 key = keyInfo.Key;
-                
+
 
                 if (key == ConsoleKey.UpArrow)
                 {
@@ -56,7 +54,7 @@ namespace Task_Manager
                         selectedIndex--;
                     }
                 }
-                else if (key == ConsoleKey.DownArrow) 
+                else if (key == ConsoleKey.DownArrow)
                 {
                     if (selectedIndex == options.Length - 1)
                     {
@@ -68,6 +66,32 @@ namespace Task_Manager
                     }
                 }
             } while (key != ConsoleKey.Enter);
+
+            Console.Clear();
+
+            return selectedIndex;
+        }
+
+        static void Menu()
+        {
+            string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
+            int menuChoice = ShowMenu(options);
+
+            switch(menuChoice)
+            {
+                case 0:
+                    
+                    break;
+                case 1:
+                    
+                    break;
+                case 2:
+                    
+                    break;
+                case 3:
+                     
+                    break;
+            }
         }
     }
 }
