@@ -77,7 +77,7 @@ namespace Task_Manager
 
         static void Menu()
         {
-            string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
+            string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task", "Exit" };
             int menuChoice = 0;
 
             while (true)
@@ -97,6 +97,9 @@ namespace Task_Manager
                         break;
                     case 3:
                         TaskManager.DeleteTask();
+                        break;
+                    case 4:
+                        Environment.Exit(0);
                         break;
                 }
             }
