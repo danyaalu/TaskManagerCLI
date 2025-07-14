@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Task_Manager.Classes;
@@ -79,22 +80,27 @@ namespace Task_Manager
         {
             string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
 
-            int menuChoice = ShowMenu(options);
+            int menuChoice = 0;
 
-            switch (menuChoice)
+            while (true)
             {
-                case 0:
-                    TaskManager.AddTask();
-                    break; 
-                case 1:
-                    TaskManager.ViewTask();
-                    break;
-                case 2:
-                    TaskManager.EditTask();
-                    break;
-                case 3:
-                    TaskManager.DeleteTask();
-                    break;
+                menuChoice = ShowMenu(options);
+
+                switch (menuChoice)
+                {
+                    case 0:
+                        TaskManager.AddTask();
+                        break;
+                    case 1:
+                        TaskManager.ViewTask();
+                        break;
+                    case 2:
+                        TaskManager.EditTask();
+                        break;
+                    case 3:
+                        TaskManager.DeleteTask();
+                        break;
+                }
             }
         }
     }

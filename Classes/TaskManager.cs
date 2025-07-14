@@ -36,9 +36,6 @@ namespace Task_Manager.Classes
                 Console.WriteLine("Adding task to list...");
                 tasks.Add(new TaskItem(name, description));
 
-                TaskItem result = tasks.Find(TaskItem => TaskItem.Name == name);
-                Console.WriteLine($"{tasks.Exists(TaskItem => TaskItem.Name == name)}, {result.Name}, {result.Description}" );
-
                 Console.WriteLine("Press any key to return back to the menu...");
                 Console.ReadKey(true);
             }
