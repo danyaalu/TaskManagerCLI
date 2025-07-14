@@ -78,11 +78,10 @@ namespace Task_Manager
         static void Menu()
         {
             string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task", "Exit" };
-            int menuChoice = 0;
 
             while (true)
             {
-                menuChoice = ShowMenu(options);
+                int menuChoice = ShowMenu(options);
 
                 switch (menuChoice)
                 {
