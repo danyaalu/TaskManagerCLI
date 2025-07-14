@@ -9,7 +9,6 @@ namespace Task_Manager.Classes
     internal class TaskManager
     {
         static List<TaskItem> tasks = new List<TaskItem>();
-
         public static void AddTask()
         {
             string name, description;

@@ -72,14 +72,12 @@ namespace Task_Manager
             } while (key != ConsoleKey.Enter);
 
             Console.Clear();
-
             return selectedIndex;
         }
 
         static void Menu()
         {
             string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
-
             int menuChoice = 0;
 
             while (true)
