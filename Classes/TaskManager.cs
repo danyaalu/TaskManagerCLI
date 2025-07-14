@@ -9,6 +9,7 @@ namespace Task_Manager.Classes
     internal class TaskManager
     {
         static List<TaskItem> tasks = new List<TaskItem>();
+        static int maxAmountOfTasks = 5;
         public static void AddTask()
         {
             string name, description;
@@ -16,27 +17,35 @@ namespace Task_Manager.Classes
             Console.Clear();
             Console.WriteLine("===== Add a task =====\n");
 
-            Console.Write("Name: ");
-            name = Console.ReadLine();
-
-            Console.Write("Description: ");
-            description = Console.ReadLine();
-
-            Console.Clear();
-            Console.WriteLine("===== Add a task =====\n");
-
-            if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
+            if (tasks.Count >= maxAmountOfTasks)
             {
-                Console.WriteLine("Inputs cannot be empty, press any key to try again...");
+                Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
             }
             else
             {
-                Console.WriteLine("Adding task to list...");
-                tasks.Add(new TaskItem(name, description));
+                Console.Write("Name: ");
+                name = Console.ReadLine();
 
-                Console.WriteLine("Press any key to return back to the menu...");
-                Console.ReadKey(true);
+                Console.Write("Description: ");
+                description = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("===== Add a task =====\n");
+
+                if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
+                {
+                    Console.WriteLine("Inputs cannot be empty, press any key to try again...");
+                    Console.ReadKey(true);
+                }
+                else
+                {
+                    Console.WriteLine("Adding task to list...");
+                    tasks.Add(new TaskItem(name, description));
+
+                    Console.WriteLine("Press any key to return back to the menu...");
+                    Console.ReadKey(true);
+                }
             }
         }
         public static void ViewTask()
