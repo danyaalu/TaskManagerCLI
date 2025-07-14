@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,34 +10,70 @@ namespace Task_Manager.Classes
     internal class TaskManager
     {
         static List<TaskItem> tasks = new List<TaskItem>();
+        static int maxAmountOfTasks = 5;
         public static void AddTask()
         {
             string name, description;
+            bool isTaskValid = true;
 
-            Console.Clear();
-            Console.WriteLine("===== Add a task =====\n");
-
-            Console.Write("Name: ");
-            name = Console.ReadLine();
-
-            Console.Write("Description: ");
-            description = Console.ReadLine();
-
-            Console.Clear();
-            Console.WriteLine("===== Add a task =====\n");
-
-            if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
+            if (tasks.Count >= maxAmountOfTasks)
             {
-                Console.WriteLine("Inputs cannot be empty, press any key to try again...");
+                Console.Clear();
+                Console.WriteLine("===== Add a task =====\n");
+
+                Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
             }
             else
             {
-                Console.WriteLine("Adding task to list...");
-                tasks.Add(new TaskItem(name, description));
+                do
+                {
+                    isTaskValid = true;
 
-                Console.WriteLine("Press any key to return back to the menu...");
-                Console.ReadKey(true);
+                    Console.Clear();
+                    Console.WriteLine("===== Add a task =====\n");
+
+                    Console.Write("Name: ");
+                    name = Console.ReadLine();
+
+                    Console.Write("Description: ");
+                    description = Console.ReadLine();
+
+                    Console.Clear();
+                    Console.WriteLine("===== Add a task =====\n");
+
+                    if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
+                    {
+                        isTaskValid = false;
+                        Console.WriteLine("Inputs cannot be empty, press any key to try again...");
+                        Console.ReadKey(true);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < tasks.Count; i++)
+                        {
+                            var task = tasks[i];
+
+                            if (task.Name == name)
+                            {
+                                isTaskValid = false;
+
+                                Console.WriteLine("Task name has already been used, press any key to try again");
+                                Console.ReadKey(true);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isTaskValid)
+                    {
+                        Console.WriteLine("Adding task to list...");
+                        tasks.Add(new TaskItem(name, description));
+
+                        Console.WriteLine("Press any key to return back to the menu...");
+                        Console.ReadKey(true);
+                    }
+                } while (!isTaskValid);
             }
         }
         public static void ViewTask()
