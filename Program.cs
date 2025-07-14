@@ -85,7 +85,7 @@ namespace Task_Manager
             {
                 case 0:
                     TaskManager.AddTask();
-                    break;
+                    break; 
                 case 1:
                     TaskManager.ViewTask();
                     break;

@@ -8,11 +8,40 @@ namespace Task_Manager.Classes
 {
     internal class TaskManager
     {
-        List<TaskItem> tasks = new List<TaskItem>();
+        static List<TaskItem> tasks = new List<TaskItem>();
 
         public static void AddTask()
         {
-            Console.WriteLine("1");
+            string name, description;
+
+            Console.Clear();
+            Console.WriteLine("===== Add a task =====\n");
+
+            Console.Write("Name: ");
+            name = Console.ReadLine();
+
+            Console.Write("Description: ");
+            description = Console.ReadLine();
+
+            Console.Clear();
+            Console.WriteLine("===== Add a task =====\n");
+
+            if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
+            {
+                Console.WriteLine("Inputs cannot be empty, press any key to try again...");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Console.WriteLine("Adding task to list...");
+                tasks.Add(new TaskItem(name, description));
+
+                TaskItem result = tasks.Find(TaskItem => TaskItem.Name == name);
+                Console.WriteLine($"{tasks.Exists(TaskItem => TaskItem.Name == name)}, {result.Name}, {result.Description}" );
+
+                Console.WriteLine("Press any key to return back to the menu...");
+                Console.ReadKey(true);
+            }
         }
         public static void ViewTask()
         {
