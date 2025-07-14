@@ -41,7 +41,27 @@ namespace Task_Manager.Classes
         }
         public static void ViewTask()
         {
-            Console.WriteLine("2");
+            Console.WriteLine("===== Viewing task list =====\n");
+
+            if (tasks == null | tasks.Count == 0)
+            {
+                Console.WriteLine("No tasks found, press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    var task = tasks[i];
+
+                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
+                    Console.WriteLine($"    Description: {task.Description}\n");
+                    Console.WriteLine($"{new string('-', 40)}\n");
+                }
+            }
+            
+            Console.WriteLine("Press any key to return to menu");
+            Console.ReadKey(true);
         }
         public static void EditTask()
         {
