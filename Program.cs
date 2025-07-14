@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task_Manager.Classes;
 
 namespace Task_Manager
 {
     internal class Program
     {
+        TaskManager taskManager = new TaskManager();
+
         static void Main(string[] args)
         {
             Menu();
         }
-        
+
         static int ShowMenu(string[] options)
-        { 
+        {
             int selectedIndex = 0;
             ConsoleKey key;
 
@@ -75,21 +78,22 @@ namespace Task_Manager
         static void Menu()
         {
             string[] options = { "Add a task", "View the task list", "Edit a task", "Delete a task" };
+
             int menuChoice = ShowMenu(options);
 
-            switch(menuChoice)
+            switch (menuChoice)
             {
                 case 0:
-                    
+                    TaskManager.AddTask();
                     break;
                 case 1:
-                    
+                    TaskManager.ViewTask();
                     break;
                 case 2:
-                    
+                    TaskManager.EditTask();
                     break;
                 case 3:
-                     
+                    TaskManager.DeleteTask();
                     break;
             }
         }
