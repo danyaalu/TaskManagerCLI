@@ -99,8 +99,7 @@ namespace Task_Manager
                         TaskManager.DeleteTask();
                         break;
                     case 4:
-                        Environment.Exit(0);
-                        break;
+                        return;
                 }
             }
         }
