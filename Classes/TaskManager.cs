@@ -82,7 +82,7 @@ namespace Task_Manager.Classes
         {
             Console.WriteLine("===== Viewing task list =====\n");
 
-            if (tasks == null | tasks.Count == 0)
+            if (tasks == null || tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
                 Console.ReadKey(true);
