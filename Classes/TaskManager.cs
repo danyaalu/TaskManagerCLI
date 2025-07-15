@@ -102,7 +102,61 @@ namespace Task_Manager.Classes
         }
         public static void EditTask()
         {
-            Console.WriteLine("3");
+            int selectedIndex = 0;
+            ConsoleKey key;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("===== Edit a task =====\n");
+
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    if (selectedIndex == i)
+                    {
+                        Console.Write("> ");
+                    }
+                    else
+                    {
+                        Console.Write("  ");
+                    }
+
+                    var task = tasks[i];
+
+                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
+                    Console.WriteLine($"    Description: {task.Description}\n");
+                    Console.WriteLine($"{new string('-', 40)}\n");
+                }
+
+
+                // Read a key without echoing into console
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.UpArrow)
+                {
+                    if (selectedIndex == 0)
+                    {
+                        selectedIndex = tasks.Count - 1;
+                    }
+                    else
+                    {
+                        selectedIndex--;
+                    }
+                }
+                else if (key == ConsoleKey.DownArrow)
+                {
+                    if (selectedIndex == tasks.Count - 1)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex++;
+                    }
+                }
+            } while (key != ConsoleKey.Enter);
+
         }
         public static void DeleteTask()
         {

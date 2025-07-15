@@ -33,11 +33,11 @@ namespace Task_Manager
                 {
                     if (i == selectedIndex)
                     {
-                        Console.Write($"> ");
+                        Console.Write("> ");
                     }
                     else
                     {
-                        Console.Write($"  ");
+                        Console.Write("  ");
                     }
                     Console.WriteLine(options[i]);
                 }
