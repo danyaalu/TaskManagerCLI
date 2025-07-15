@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Task_Manager.Classes
@@ -106,100 +107,124 @@ namespace Task_Manager.Classes
         {
             int selectedIndex = 0;
             ConsoleKey key;
+            bool isTaskValid;
 
             do
             {
+                isTaskValid = true;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("===== Edit a task =====\n");
+
+                    for (int i = 0; i < tasks.Count; i++)
+                    {
+                        if (selectedIndex == i)
+                        {
+                            Console.Write("> ");
+                        }
+                        else
+                        {
+                            Console.Write("  ");
+                        }
+
+                        var task = tasks[i];
+
+                        Console.WriteLine($"[{i + 1}] Name: {task.Name}");
+                        Console.WriteLine($"    Description: {task.Description}\n");
+                        Console.WriteLine($"{new string('-', 40)}\n");
+                    }
+
+
+                    // Read a key without echoing into console
+                    ConsoleKeyInfo keyInfo = Console.ReadKey();
+                    key = keyInfo.Key;
+
+                    if (key == ConsoleKey.UpArrow)
+                    {
+                        if (selectedIndex == 0)
+                        {
+                            selectedIndex = tasks.Count - 1;
+                        }
+                        else
+                        {
+                            selectedIndex--;
+                        }
+                    }
+                    else if (key == ConsoleKey.DownArrow)
+                    {
+                        if (selectedIndex == tasks.Count - 1)
+                        {
+                            selectedIndex = 0;
+                        }
+                        else
+                        {
+                            selectedIndex++;
+                        }
+                    }
+                } while (key != ConsoleKey.Enter);
+
                 Console.Clear();
                 Console.WriteLine("===== Edit a task =====\n");
 
+                Console.WriteLine($"Old name: {tasks[selectedIndex].Name}");
+                Console.Write("New name: ");
+                string name = Console.ReadLine();
+
+                Console.WriteLine($"\nOld description: {tasks[selectedIndex].Description}");
+                Console.Write("New description: ");
+                string description = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("===== Edit a task =====\n");
+
+                // TODO: Rebuild validation logic
+
                 for (int i = 0; i < tasks.Count; i++)
                 {
-                    if (selectedIndex == i)
-                    {
-                        Console.Write("> ");
-                    }
-                    else
-                    {
-                        Console.Write("  ");
-                    }
-
                     var task = tasks[i];
 
-                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                    Console.WriteLine($"    Description: {task.Description}\n");
-                    Console.WriteLine($"{new string('-', 40)}\n");
+                    if (task.Name == name)
+                    {
+                        isTaskValid = false;
+
+                        Console.WriteLine("Task name has already been used, press any key to try again");
+                        Console.ReadKey(true);
+                        break;
+                    }
                 }
 
-
-                // Read a key without echoing into console
-                ConsoleKeyInfo keyInfo = Console.ReadKey();
-                key = keyInfo.Key;
-
-                if (key == ConsoleKey.UpArrow)
+                if (isTaskValid)
                 {
-                    if (selectedIndex == 0)
+                    if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(description))
                     {
-                        selectedIndex = tasks.Count - 1;
+                        Console.WriteLine("No changes were made, press any key to return to menu");
+                        Console.ReadKey(true);
                     }
-                    else
+                    else if (name != tasks[selectedIndex].Name && string.IsNullOrWhiteSpace(description))
                     {
-                        selectedIndex--;
+                        tasks[selectedIndex].Name = name;
+
+                        Console.WriteLine("Name has been changed, press any key to return to menu");
+                        Console.ReadKey(true);
+                    }
+                    else if (string.IsNullOrWhiteSpace(name) && description != tasks[selectedIndex].Description)
+                    {
+                        tasks[selectedIndex].Description = description;
+
+                        Console.WriteLine("Description has been changed, press any key to return to menu");
+                        Console.ReadKey(true);
+                    }
+                    else if (name != tasks[selectedIndex].Name && description != tasks[selectedIndex].Description)
+                    {
+                        tasks[selectedIndex].Name = name;
+                        tasks[selectedIndex].Description = description;
+
+                        Console.WriteLine("Name and description has been changed, press any key to return to menu");
+                        Console.ReadKey(true);
                     }
                 }
-                else if (key == ConsoleKey.DownArrow)
-                {
-                    if (selectedIndex == tasks.Count - 1)
-                    {
-                        selectedIndex = 0;
-                    }
-                    else
-                    {
-                        selectedIndex++;
-                    }
-                }
-            } while (key != ConsoleKey.Enter);
-
-            Console.Clear();
-            Console.WriteLine("===== Edit a task =====\n");
-
-            Console.WriteLine($"Old name: {tasks[selectedIndex].Name}");
-            Console.Write("New name: ");
-            string name = Console.ReadLine();
-
-            Console.WriteLine($"\nOld description: {tasks[selectedIndex].Description}");
-            Console.Write("New description: ");
-            string description = Console.ReadLine();
-
-            Console.Clear();
-            Console.WriteLine("===== Edit a task =====\n");
-
-            if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(description))
-            {
-                Console.WriteLine("No changes were made, press any key to return to menu");
-                Console.ReadKey(true);
-            }
-            else if (name != tasks[selectedIndex].Name && string.IsNullOrWhiteSpace(description))
-            {
-                tasks[selectedIndex].Name = name;
-
-                Console.WriteLine("Name has been changed, press any key to return to menu");
-                Console.ReadKey(true);
-            }
-            else if (string.IsNullOrWhiteSpace(name) && description != tasks[selectedIndex].Description)
-            {
-                tasks[selectedIndex].Description = description;
-
-                Console.WriteLine("Description has been changed, press any key to return to menu");
-                Console.ReadKey(true);
-            }
-            else if (name != tasks[selectedIndex].Name && description != tasks[selectedIndex].Description)
-            {
-                tasks[selectedIndex].Name = name;
-                tasks[selectedIndex].Description = description;
-
-                Console.WriteLine("Name and description has been changed, press any key to return to menu");
-                Console.ReadKey(true);
-            }
+            } while (!isTaskValid);
         }
         public static void DeleteTask()
         {
