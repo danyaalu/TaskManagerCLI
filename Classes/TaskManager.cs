@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -96,7 +98,7 @@ namespace Task_Manager.Classes
                     Console.WriteLine($"{new string('-', 40)}\n");
                 }
             }
-            
+
             Console.WriteLine("Press any key to return to menu");
             Console.ReadKey(true);
         }
@@ -157,6 +159,47 @@ namespace Task_Manager.Classes
                 }
             } while (key != ConsoleKey.Enter);
 
+            Console.Clear();
+            Console.WriteLine("===== Edit a task =====\n");
+
+            Console.WriteLine($"Old name: {tasks[selectedIndex].Name}");
+            Console.Write("New name: ");
+            string name = Console.ReadLine();
+
+            Console.WriteLine($"\nOld description: {tasks[selectedIndex].Description}");
+            Console.Write("New description: ");
+            string description = Console.ReadLine();
+
+            Console.Clear();
+            Console.WriteLine("===== Edit a task =====\n");
+
+            if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(description))
+            {
+                Console.WriteLine("No changes were made, press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else if (name != tasks[selectedIndex].Name && string.IsNullOrWhiteSpace(description))
+            {
+                tasks[selectedIndex].Name = name;
+
+                Console.WriteLine("Name has been changed, press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else if (string.IsNullOrWhiteSpace(name) && description != tasks[selectedIndex].Description)
+            {
+                tasks[selectedIndex].Description = description;
+
+                Console.WriteLine("Description has been changed, press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else if (name != tasks[selectedIndex].Name && description != tasks[selectedIndex].Description)
+            {
+                tasks[selectedIndex].Name = name;
+                tasks[selectedIndex].Description = description;
+
+                Console.WriteLine("Name and description has been changed, press any key to return to menu");
+                Console.ReadKey(true);
+            }
         }
         public static void DeleteTask()
         {
