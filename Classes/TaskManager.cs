@@ -182,15 +182,18 @@ namespace Task_Manager.Classes
 
                 for (int i = 0; i < tasks.Count; i++)
                 {
-                    var task = tasks[i];
-
-                    if (task.Name == name)
+                    if (i != selectedIndex)
                     {
-                        isTaskValid = false;
+                        var task = tasks[i];
 
-                        Console.WriteLine("Task name has already been used, press any key to try again");
-                        Console.ReadKey(true);
-                        break;
+                        if (task.Name == name)
+                        {
+                            isTaskValid = false;
+
+                            Console.WriteLine("Task name has already been used, press any key to try again");
+                            Console.ReadKey(true);
+                            break;
+                        }
                     }
                 }
 
@@ -229,6 +232,32 @@ namespace Task_Manager.Classes
         public static void DeleteTask()
         {
             Console.WriteLine("4");
+        }
+
+        // Create helper function
+
+        private static bool ValidateTaskInput(string name, string description, int selectedIndex)
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
+            {
+                Console.WriteLine("Inputs cannot be empty, press any key to try again");
+                Console.ReadKey(true);
+                return false;
+            }
+
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                if (i == selectedIndex) continue;
+
+                var task = tasks[selectedIndex];
+                if (task.Name.ToLower() == name.ToLower())
+                {
+                    Console.WriteLine("Task name has already been used, press any key to try again");
+                    Console.ReadKey(true);
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
