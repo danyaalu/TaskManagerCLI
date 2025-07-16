@@ -27,7 +27,7 @@ namespace Task_Manager.Classes
             }
 
             string name, description;
-            bool isTaskValid;
+            bool isTaskValid = false; ;
             do
             {
                 Console.Clear();
@@ -79,11 +79,10 @@ namespace Task_Manager.Classes
         {
             int selectedIndex = 0;
             ConsoleKey key;
-            bool isTaskValid;
 
+            bool isTaskValid = false;
             do
             {
-                isTaskValid = true;
                 do
                 {
                     Console.Clear();
@@ -150,54 +149,24 @@ namespace Task_Manager.Classes
                 Console.Clear();
                 Console.WriteLine("===== Edit a task =====\n");
 
-                // TODO: Rebuild validation logic
+                // Use old values if left blank
+                string newName = string.IsNullOrWhiteSpace(name) ? tasks[selectedIndex].Name : name;
+                string newDescription = string.IsNullOrWhiteSpace(description) ? tasks[selectedIndex].Description : description;
 
-                for (int i = 0; i < tasks.Count; i++)
+                if (newName == tasks[selectedIndex].Name && newDescription == tasks[selectedIndex].Description)
                 {
-                    if (i != selectedIndex)
-                    {
-                        var task = tasks[i];
-
-                        if (task.Name == name)
-                        {
-                            isTaskValid = false;
-
-                            Console.WriteLine("Task name has already been used, press any key to try again");
-                            Console.ReadKey(true);
-                            break;
-                        }
-                    }
+                    Console.WriteLine("No changes were made, press any key to return to menu");
+                    Console.ReadKey(true);
+                    return; 
                 }
 
+                isTaskValid = ValidateTaskInput(newName, newDescription, selectedIndex);
                 if (isTaskValid)
                 {
-                    if (string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(description))
-                    {
-                        Console.WriteLine("No changes were made, press any key to return to menu");
-                        Console.ReadKey(true);
-                    }
-                    else if (name != tasks[selectedIndex].Name && string.IsNullOrWhiteSpace(description))
-                    {
-                        tasks[selectedIndex].Name = name;
-
-                        Console.WriteLine("Name has been changed, press any key to return to menu");
-                        Console.ReadKey(true);
-                    }
-                    else if (string.IsNullOrWhiteSpace(name) && description != tasks[selectedIndex].Description)
-                    {
-                        tasks[selectedIndex].Description = description;
-
-                        Console.WriteLine("Description has been changed, press any key to return to menu");
-                        Console.ReadKey(true);
-                    }
-                    else if (name != tasks[selectedIndex].Name && description != tasks[selectedIndex].Description)
-                    {
-                        tasks[selectedIndex].Name = name;
-                        tasks[selectedIndex].Description = description;
-
-                        Console.WriteLine("Name and description has been changed, press any key to return to menu");
-                        Console.ReadKey(true);
-                    }
+                    tasks[selectedIndex].Name = newName;
+                    tasks[selectedIndex].Description = newDescription;
+                    Console.WriteLine("Task updated, press any key to return to menu");
+                    Console.ReadKey(true);
                 }
             } while (!isTaskValid);
         }
@@ -205,9 +174,6 @@ namespace Task_Manager.Classes
         {
             Console.WriteLine("4");
         }
-
-        // Create helper function
-
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
