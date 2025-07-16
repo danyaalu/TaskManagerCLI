@@ -13,12 +13,9 @@ namespace Task_Manager.Classes
     internal class TaskManager
     {
         static List<TaskItem> tasks = new List<TaskItem>();
-        static int maxAmountOfTasks = 5;
+        const int maxAmountOfTasks = 5;
         public static void AddTask()
         {
-            string name, description;
-            bool isTaskValid = true;
-
             if (tasks.Count >= maxAmountOfTasks)
             {
                 Console.Clear();
@@ -26,58 +23,33 @@ namespace Task_Manager.Classes
 
                 Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
+                return;
             }
-            else
+
+            string name, description;
+            bool isTaskValid;
+            do
             {
-                do
+                Console.Clear();
+                Console.WriteLine("===== Add a task =====\n");
+
+                Console.Write("Name: ");
+                name = Console.ReadLine();
+
+                Console.Write("Description: ");
+                description = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("===== Add a task =====\n");
+
+                isTaskValid = ValidateTaskInput(name, description);
+                if (isTaskValid)
                 {
-                    isTaskValid = true;
-
-                    Console.Clear();
-                    Console.WriteLine("===== Add a task =====\n");
-
-                    Console.Write("Name: ");
-                    name = Console.ReadLine();
-
-                    Console.Write("Description: ");
-                    description = Console.ReadLine();
-
-                    Console.Clear();
-                    Console.WriteLine("===== Add a task =====\n");
-
-                    if (string.IsNullOrWhiteSpace(name) == true || string.IsNullOrWhiteSpace(description) == true)
-                    {
-                        isTaskValid = false;
-                        Console.WriteLine("Inputs cannot be empty, press any key to try again...");
-                        Console.ReadKey(true);
-                    }
-                    else
-                    {
-                        for (int i = 0; i < tasks.Count; i++)
-                        {
-                            var task = tasks[i];
-
-                            if (task.Name == name)
-                            {
-                                isTaskValid = false;
-
-                                Console.WriteLine("Task name has already been used, press any key to try again");
-                                Console.ReadKey(true);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (isTaskValid)
-                    {
-                        Console.WriteLine("Adding task to list...");
-                        tasks.Add(new TaskItem(name, description));
-
-                        Console.WriteLine("Press any key to return back to the menu...");
-                        Console.ReadKey(true);
-                    }
-                } while (!isTaskValid);
-            }
+                    tasks.Add(new TaskItem(name, description));
+                    Console.WriteLine("Added new task to list... press any key to return to menu");
+                    Console.ReadKey(true);
+                }
+            } while (!isTaskValid);
         }
         public static void ViewTask()
         {
@@ -236,7 +208,7 @@ namespace Task_Manager.Classes
 
         // Create helper function
 
-        private static bool ValidateTaskInput(string name, string description, int selectedIndex)
+        private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
             {
@@ -249,8 +221,7 @@ namespace Task_Manager.Classes
             {
                 if (i == selectedIndex) continue;
 
-                var task = tasks[selectedIndex];
-                if (task.Name.ToLower() == name.ToLower())
+                if (string.Equals(tasks[i].Name, name, StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("Task name has already been used, press any key to try again");
                     Console.ReadKey(true);
