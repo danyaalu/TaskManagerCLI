@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Text;
@@ -58,20 +59,15 @@ namespace Task_Manager.Classes
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
                 Console.ReadKey(true);
+                return;
             }
             else
             {
-                for (int i = 0; i < _tasks.Count; i++)
-                {
-                    var task = _tasks[i];
-                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                    Console.WriteLine($"    Description: {task.Description}\n");
-                    Console.WriteLine($"{new string('-', 40)}\n");
-                }
+                string title = "===== Viewing task list =====\n";
+                DisplayTaskList(title);
+                Console.WriteLine("Press any key to return to menu");
+                Console.ReadKey(true);
             }
-
-            Console.WriteLine("Press any key to return to menu");
-            Console.ReadKey(true);
         }
         public static void EditTask()
         {
@@ -266,5 +262,16 @@ namespace Task_Manager.Classes
             }
             return true;
         }
+        private static void DisplayTaskList(string title, int selectedIndex = -1)
+        {
+            for (int i = 0; i < _tasks.Count; i++)
+            {
+                var task = _tasks[i];
+                Console.WriteLine($"[{i + 1}] Name: {task.Name}");
+                Console.WriteLine($"    Description: {task.Description}\n");
+                Console.WriteLine($"{new string('-', 40)}\n");
+            }
+        }
+
     }
 }
