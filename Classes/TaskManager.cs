@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -20,7 +21,6 @@ namespace Task_Manager.Classes
             {
                 Console.Clear();
                 Console.WriteLine("===== Add a task =====\n");
-
                 Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
                 return;
@@ -54,7 +54,6 @@ namespace Task_Manager.Classes
         public static void ViewTask()
         {
             Console.WriteLine("===== Viewing task list =====\n");
-
             if (tasks == null || tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
@@ -65,7 +64,6 @@ namespace Task_Manager.Classes
                 for (int i = 0; i < tasks.Count; i++)
                 {
                     var task = tasks[i];
-
                     Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                     Console.WriteLine($"    Description: {task.Description}\n");
                     Console.WriteLine($"{new string('-', 40)}\n");
@@ -108,12 +106,10 @@ namespace Task_Manager.Classes
                         }
 
                         var task = tasks[i];
-
                         Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                        Console.WriteLine($"    Description: {task.Description}\n");
+                        Console.WriteLine($"      Description: {task.Description}\n");
                         Console.WriteLine($"{new string('-', 40)}\n");
                     }
-
 
                     // Read a key without echoing into console
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -165,7 +161,7 @@ namespace Task_Manager.Classes
                 {
                     Console.WriteLine("No changes were made, press any key to return to menu");
                     Console.ReadKey(true);
-                    return; 
+                    return;
                 }
 
                 isTaskValid = ValidateTaskInput(newName, newDescription, selectedIndex);
@@ -180,7 +176,73 @@ namespace Task_Manager.Classes
         }
         public static void DeleteTask()
         {
-            Console.WriteLine("4");
+            int selectedIndex = 0;
+            ConsoleKey key;
+
+            if (tasks.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("===== Delete a task =====\n");
+                Console.WriteLine("No tasks to delete, press any key to return to menu");
+                Console.ReadKey(true);
+                return;
+            }
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("===== Delete a task =====\n");
+
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    if (selectedIndex == i)
+                    {
+                        Console.Write("> ");
+                    }
+                    else
+                    {
+                        Console.Write("  ");
+                    }
+
+                    var task = tasks[i];
+                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
+                    Console.WriteLine($"      Description: {task.Description}\n");
+                    Console.WriteLine($"{new string('-', 40)}\n");
+                }
+
+                // Read a key without echoing into console
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.UpArrow)
+                {
+                    if (selectedIndex == 0)
+                    {
+                        selectedIndex = tasks.Count - 1;
+                    }
+                    else
+                    {
+                        selectedIndex--;
+                    }
+                }
+                else if (key == ConsoleKey.DownArrow)
+                {
+                    if (selectedIndex == tasks.Count - 1)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex++;
+                    }
+                }
+            } while (key != ConsoleKey.Enter);
+
+            Console.Clear();
+            Console.WriteLine("===== Delete a task =====\n");
+            tasks.RemoveAt(selectedIndex);
+            Console.WriteLine("Task removed successfully, press any key to return to menu");
+            Console.ReadKey(true);
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {

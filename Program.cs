@@ -25,7 +25,6 @@ namespace Task_Manager
             do
             {
                 Console.Clear();
-
                 Console.WriteLine($"===== Task Manager =====\n");
 
                 // Drawing options, showing ">" for selected option
@@ -45,7 +44,6 @@ namespace Task_Manager
                 // Read a key without echoing into console
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
                 key = keyInfo.Key;
-
 
                 if (key == ConsoleKey.UpArrow)
                 {
