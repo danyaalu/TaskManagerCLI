@@ -108,9 +108,8 @@ namespace Task_Manager.Classes
                         }
 
                         var task = tasks[i];
-
                         Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                        Console.WriteLine($"    Description: {task.Description}\n");
+                        Console.WriteLine($"      Description: {task.Description}\n");
                         Console.WriteLine($"{new string('-', 40)}\n");
                     }
 
@@ -180,7 +179,7 @@ namespace Task_Manager.Classes
         }
         public static void DeleteTask()
         {
-            Console.WriteLine("4");
+            
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
