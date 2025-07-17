@@ -73,10 +73,11 @@ namespace Task_Manager.Classes
         {
             int selectedIndex = 0;
             ConsoleKey key;
+            string title = "Edit a task";
 
             if (_tasks.Count == 0)
             {
-                Console.WriteLine("===== Edit a task =====\n");
+                Console.WriteLine($"===== {title} =====\n");
                 Console.WriteLine("No tasks to edit, press any key to return to menu");
                 Console.ReadKey(true);
                 return;
@@ -87,25 +88,7 @@ namespace Task_Manager.Classes
             {
                 do
                 {
-                    Console.Clear();
-                    Console.WriteLine("===== Edit a task =====\n");
-
-                    for (int i = 0; i < _tasks.Count; i++)
-                    {
-                        if (selectedIndex == i)
-                        {
-                            Console.Write("> ");
-                        }
-                        else
-                        {
-                            Console.Write("  ");
-                        }
-
-                        var task = _tasks[i];
-                        Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                        Console.WriteLine($"      Description: {task.Description}\n");
-                        Console.WriteLine($"{new string('-', 40)}\n");
-                    }
+                    DisplayTaskList(title, selectedIndex);
 
                     // Read a key without echoing into console
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -271,12 +254,12 @@ namespace Task_Manager.Classes
             {
                 if (selectedIndex >= 0)
                 {
-                    Console.WriteLine(selectedIndex == i ? "> " : "  ");
+                    Console.Write(selectedIndex == i ? "> " : "  ");
                 }
 
                 var task = _tasks[i];
                 Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                Console.WriteLine($"    Description: {task.Description}\n");
+                Console.WriteLine(selectedIndex >= 0 ? $"      Description: {task.Description}\n" : $"    Description: {task.Description}\n");
                 Console.WriteLine($"{new string('-', 40)}\n");
             }
         }
