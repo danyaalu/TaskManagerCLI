@@ -13,11 +13,11 @@ namespace Task_Manager.Classes
 {
     internal class TaskManager
     {
-        static List<TaskItem> tasks = new List<TaskItem>();
-        const int maxAmountOfTasks = 5;
+        private static List<TaskItem> _tasks = new List<TaskItem>();
+        private const int MaxAmountOfTasks = 5;
         public static void AddTask()
         {
-            if (tasks.Count >= maxAmountOfTasks)
+            if (_tasks.Count >= MaxAmountOfTasks)
             {
                 Console.Clear();
                 Console.WriteLine("===== Add a task =====\n");
@@ -45,7 +45,7 @@ namespace Task_Manager.Classes
                 isTaskValid = ValidateTaskInput(name, description);
                 if (isTaskValid)
                 {
-                    tasks.Add(new TaskItem(name, description));
+                    _tasks.Add(new TaskItem(name, description));
                     Console.WriteLine("Added new task to list... press any key to return to menu");
                     Console.ReadKey(true);
                 }
@@ -54,16 +54,16 @@ namespace Task_Manager.Classes
         public static void ViewTask()
         {
             Console.WriteLine("===== Viewing task list =====\n");
-            if (tasks == null || tasks.Count == 0)
+            if (_tasks == null || _tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
                 Console.ReadKey(true);
             }
             else
             {
-                for (int i = 0; i < tasks.Count; i++)
+                for (int i = 0; i < _tasks.Count; i++)
                 {
-                    var task = tasks[i];
+                    var task = _tasks[i];
                     Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                     Console.WriteLine($"    Description: {task.Description}\n");
                     Console.WriteLine($"{new string('-', 40)}\n");
@@ -78,7 +78,7 @@ namespace Task_Manager.Classes
             int selectedIndex = 0;
             ConsoleKey key;
 
-            if (tasks.Count == 0)
+            if (_tasks.Count == 0)
             {
                 Console.WriteLine("===== Edit a task =====\n");
                 Console.WriteLine("No tasks to edit, press any key to return to menu");
@@ -94,7 +94,7 @@ namespace Task_Manager.Classes
                     Console.Clear();
                     Console.WriteLine("===== Edit a task =====\n");
 
-                    for (int i = 0; i < tasks.Count; i++)
+                    for (int i = 0; i < _tasks.Count; i++)
                     {
                         if (selectedIndex == i)
                         {
@@ -105,7 +105,7 @@ namespace Task_Manager.Classes
                             Console.Write("  ");
                         }
 
-                        var task = tasks[i];
+                        var task = _tasks[i];
                         Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                         Console.WriteLine($"      Description: {task.Description}\n");
                         Console.WriteLine($"{new string('-', 40)}\n");
@@ -119,7 +119,7 @@ namespace Task_Manager.Classes
                     {
                         if (selectedIndex == 0)
                         {
-                            selectedIndex = tasks.Count - 1;
+                            selectedIndex = _tasks.Count - 1;
                         }
                         else
                         {
@@ -128,7 +128,7 @@ namespace Task_Manager.Classes
                     }
                     else if (key == ConsoleKey.DownArrow)
                     {
-                        if (selectedIndex == tasks.Count - 1)
+                        if (selectedIndex == _tasks.Count - 1)
                         {
                             selectedIndex = 0;
                         }
@@ -142,11 +142,11 @@ namespace Task_Manager.Classes
                 Console.Clear();
                 Console.WriteLine("===== Edit a task =====\n");
 
-                Console.WriteLine($"Old name: {tasks[selectedIndex].Name}");
+                Console.WriteLine($"Old name: {_tasks[selectedIndex].Name}");
                 Console.Write("New name: ");
                 string name = Console.ReadLine();
 
-                Console.WriteLine($"\nOld description: {tasks[selectedIndex].Description}");
+                Console.WriteLine($"\nOld description: {_tasks[selectedIndex].Description}");
                 Console.Write("New description: ");
                 string description = Console.ReadLine();
 
@@ -154,10 +154,10 @@ namespace Task_Manager.Classes
                 Console.WriteLine("===== Edit a task =====\n");
 
                 // Use old values if left blank
-                string newName = string.IsNullOrWhiteSpace(name) ? tasks[selectedIndex].Name : name;
-                string newDescription = string.IsNullOrWhiteSpace(description) ? tasks[selectedIndex].Description : description;
+                string newName = string.IsNullOrWhiteSpace(name) ? _tasks[selectedIndex].Name : name;
+                string newDescription = string.IsNullOrWhiteSpace(description) ? _tasks[selectedIndex].Description : description;
 
-                if (newName == tasks[selectedIndex].Name && newDescription == tasks[selectedIndex].Description)
+                if (newName == _tasks[selectedIndex].Name && newDescription == _tasks[selectedIndex].Description)
                 {
                     Console.WriteLine("No changes were made, press any key to return to menu");
                     Console.ReadKey(true);
@@ -167,8 +167,8 @@ namespace Task_Manager.Classes
                 isTaskValid = ValidateTaskInput(newName, newDescription, selectedIndex);
                 if (isTaskValid)
                 {
-                    tasks[selectedIndex].Name = newName;
-                    tasks[selectedIndex].Description = newDescription;
+                    _tasks[selectedIndex].Name = newName;
+                    _tasks[selectedIndex].Description = newDescription;
                     Console.WriteLine("Task updated, press any key to return to menu");
                     Console.ReadKey(true);
                 }
@@ -179,7 +179,7 @@ namespace Task_Manager.Classes
             int selectedIndex = 0;
             ConsoleKey key;
 
-            if (tasks.Count == 0)
+            if (_tasks.Count == 0)
             {
                 Console.Clear();
                 Console.WriteLine("===== Delete a task =====\n");
@@ -193,7 +193,7 @@ namespace Task_Manager.Classes
                 Console.Clear();
                 Console.WriteLine("===== Delete a task =====\n");
 
-                for (int i = 0; i < tasks.Count; i++)
+                for (int i = 0; i < _tasks.Count; i++)
                 {
                     if (selectedIndex == i)
                     {
@@ -204,7 +204,7 @@ namespace Task_Manager.Classes
                         Console.Write("  ");
                     }
 
-                    var task = tasks[i];
+                    var task = _tasks[i];
                     Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                     Console.WriteLine($"      Description: {task.Description}\n");
                     Console.WriteLine($"{new string('-', 40)}\n");
@@ -218,7 +218,7 @@ namespace Task_Manager.Classes
                 {
                     if (selectedIndex == 0)
                     {
-                        selectedIndex = tasks.Count - 1;
+                        selectedIndex = _tasks.Count - 1;
                     }
                     else
                     {
@@ -227,7 +227,7 @@ namespace Task_Manager.Classes
                 }
                 else if (key == ConsoleKey.DownArrow)
                 {
-                    if (selectedIndex == tasks.Count - 1)
+                    if (selectedIndex == _tasks.Count - 1)
                     {
                         selectedIndex = 0;
                     }
@@ -240,7 +240,7 @@ namespace Task_Manager.Classes
 
             Console.Clear();
             Console.WriteLine("===== Delete a task =====\n");
-            tasks.RemoveAt(selectedIndex);
+            _tasks.RemoveAt(selectedIndex);
             Console.WriteLine("Task removed successfully, press any key to return to menu");
             Console.ReadKey(true);
         }
@@ -253,11 +253,11 @@ namespace Task_Manager.Classes
                 return false;
             }
 
-            for (int i = 0; i < tasks.Count; i++)
+            for (int i = 0; i < _tasks.Count; i++)
             {
                 if (i == selectedIndex) continue;
 
-                if (string.Equals(tasks[i].Name, name, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(_tasks[i].Name, name, StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("Task name has already been used, press any key to try again");
                     Console.ReadKey(true);
