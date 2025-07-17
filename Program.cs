@@ -10,8 +10,6 @@ namespace Task_Manager
 {
     internal class Program
     {
-        TaskManager taskManager = new TaskManager();
-
         static void Main(string[] args)
         {
             Menu();
