@@ -21,7 +21,6 @@ namespace Task_Manager.Classes
             {
                 Console.Clear();
                 Console.WriteLine("===== Add a task =====\n");
-
                 Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
                 return;
@@ -55,7 +54,6 @@ namespace Task_Manager.Classes
         public static void ViewTask()
         {
             Console.WriteLine("===== Viewing task list =====\n");
-
             if (tasks == null || tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
@@ -66,7 +64,6 @@ namespace Task_Manager.Classes
                 for (int i = 0; i < tasks.Count; i++)
                 {
                     var task = tasks[i];
-
                     Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                     Console.WriteLine($"    Description: {task.Description}\n");
                     Console.WriteLine($"{new string('-', 40)}\n");
@@ -113,7 +110,6 @@ namespace Task_Manager.Classes
                         Console.WriteLine($"      Description: {task.Description}\n");
                         Console.WriteLine($"{new string('-', 40)}\n");
                     }
-
 
                     // Read a key without echoing into console
                     ConsoleKeyInfo keyInfo = Console.ReadKey();
