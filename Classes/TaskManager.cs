@@ -54,7 +54,8 @@ namespace Task_Manager.Classes
         }
         public static void ViewTask()
         {
-            Console.WriteLine("===== Viewing task list =====\n");
+            string title = "===== Viewing task list =====\n";
+            Console.WriteLine(title);
             if (_tasks == null || _tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
@@ -63,7 +64,6 @@ namespace Task_Manager.Classes
             }
             else
             {
-                string title = "===== Viewing task list =====\n";
                 DisplayTaskList(title);
                 Console.WriteLine("Press any key to return to menu");
                 Console.ReadKey(true);
