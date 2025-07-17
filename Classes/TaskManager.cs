@@ -54,7 +54,8 @@ namespace Task_Manager.Classes
         }
         public static void ViewTask()
         {
-            Console.WriteLine("===== Viewing task list =====\n");
+            string title = "Viewing task list";
+            Console.WriteLine($"===== {title} =====\n");
             if (_tasks == null || _tasks.Count == 0)
             {
                 Console.WriteLine("No tasks found, press any key to return to menu");
@@ -63,7 +64,6 @@ namespace Task_Manager.Classes
             }
             else
             {
-                string title = "===== Viewing task list =====\n";
                 DisplayTaskList(title);
                 Console.WriteLine("Press any key to return to menu");
                 Console.ReadKey(true);
@@ -264,8 +264,16 @@ namespace Task_Manager.Classes
         }
         private static void DisplayTaskList(string title, int selectedIndex = -1)
         {
+            Console.Clear();
+            Console.WriteLine($"===== {title} =====\n");
+
             for (int i = 0; i < _tasks.Count; i++)
             {
+                if (selectedIndex >= 0)
+                {
+                    Console.WriteLine(selectedIndex == i ? "> " : "  ");
+                }
+
                 var task = _tasks[i];
                 Console.WriteLine($"[{i + 1}] Name: {task.Name}");
                 Console.WriteLine($"    Description: {task.Description}\n");
