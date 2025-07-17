@@ -1,14 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
-using System.Security.Authentication.ExtendedProtection.Configuration;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Task_Manager.Classes
 {
