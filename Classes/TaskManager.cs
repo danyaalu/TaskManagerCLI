@@ -186,7 +186,7 @@ namespace Task_Manager.Classes
             if (tasks.Count == 0)
             {
                 Console.Clear();
-                Console.WriteLine("===== Edit a task =====\n");
+                Console.WriteLine("===== Delete a task =====\n");
                 Console.WriteLine("No tasks to delete, press any key to return to menu");
                 Console.ReadKey(true);
                 return;
@@ -195,7 +195,7 @@ namespace Task_Manager.Classes
             do
             {
                 Console.Clear();
-                Console.WriteLine("===== Edit a task =====\n");
+                Console.WriteLine("===== Delete a task =====\n");
 
                 for (int i = 0; i < tasks.Count; i++)
                 {
@@ -213,7 +213,6 @@ namespace Task_Manager.Classes
                     Console.WriteLine($"      Description: {task.Description}\n");
                     Console.WriteLine($"{new string('-', 40)}\n");
                 }
-
 
                 // Read a key without echoing into console
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
