@@ -183,6 +183,15 @@ namespace Task_Manager.Classes
             int selectedIndex = 0;
             ConsoleKey key;
 
+            if (tasks.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("===== Edit a task =====\n");
+                Console.WriteLine("No tasks to delete, press any key to return to menu");
+                Console.ReadKey(true);
+                return;
+            }
+
             do
             {
                 Console.Clear();
