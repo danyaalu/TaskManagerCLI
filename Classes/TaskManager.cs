@@ -161,7 +161,7 @@ namespace Task_Manager.Classes
                 {
                     Console.WriteLine("No changes were made, press any key to return to menu");
                     Console.ReadKey(true);
-                    return; 
+                    return;
                 }
 
                 isTaskValid = ValidateTaskInput(newName, newDescription, selectedIndex);
@@ -237,6 +237,12 @@ namespace Task_Manager.Classes
                     }
                 }
             } while (key != ConsoleKey.Enter);
+
+            Console.Clear();
+            Console.WriteLine("===== Delete a task =====\n");
+            tasks.RemoveAt(selectedIndex);
+            Console.WriteLine("Task removed successfully, press any key to return to menu");
+            Console.ReadKey(true);
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
