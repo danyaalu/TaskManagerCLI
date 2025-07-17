@@ -155,8 +155,6 @@ namespace Task_Manager.Classes
         }
         public static void DeleteTask()
         {
-            int selectedIndex = 0;
-            ConsoleKey key;
             string title = "Delete a task";
 
             if (_tasks.Count == 0)
@@ -168,37 +166,7 @@ namespace Task_Manager.Classes
                 return;
             }
 
-            do
-            {
-                DisplayTaskList(title, selectedIndex);
-
-                // Read a key without echoing into console
-                ConsoleKeyInfo keyInfo = Console.ReadKey();
-                key = keyInfo.Key;
-
-                if (key == ConsoleKey.UpArrow)
-                {
-                    if (selectedIndex == 0)
-                    {
-                        selectedIndex = _tasks.Count - 1;
-                    }
-                    else
-                    {
-                        selectedIndex--;
-                    }
-                }
-                else if (key == ConsoleKey.DownArrow)
-                {
-                    if (selectedIndex == _tasks.Count - 1)
-                    {
-                        selectedIndex = 0;
-                    }
-                    else
-                    {
-                        selectedIndex++;
-                    }
-                }
-            } while (key != ConsoleKey.Enter);
+            int selectedIndex = GetTaskSelection(title);
 
             Console.Clear();
             Console.WriteLine("===== Delete a task =====\n");
@@ -247,6 +215,43 @@ namespace Task_Manager.Classes
             }
             Console.WriteLine(selectedIndex >= 0 ? "Press ENTER to return to menu" : "Press any key to return to menu");
         }
+        private static int GetTaskSelection(string title)
+        {
+            int selectedIndex = 0;
+            ConsoleKey key;
 
+            do
+            {
+                DisplayTaskList(title, selectedIndex);
+
+                // Read a key without echoing into console
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.UpArrow)
+                {
+                    if (selectedIndex == 0)
+                    {
+                        selectedIndex = _tasks.Count - 1;
+                    }
+                    else
+                    {
+                        selectedIndex--;
+                    }
+                }
+                else if (key == ConsoleKey.DownArrow)
+                {
+                    if (selectedIndex == _tasks.Count - 1)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex++;
+                    }
+                }
+            } while (key != ConsoleKey.Enter);
+            return selectedIndex;
+        }
     }
 }
