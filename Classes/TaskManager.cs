@@ -18,10 +18,11 @@ namespace Task_Manager.Classes
         private const int MaxAmountOfTasks = 5;
         public static void AddTask()
         {
+            string title = "Add a task";
             if (_tasks.Count >= MaxAmountOfTasks)
             {
                 Console.Clear();
-                Console.WriteLine("===== Add a task =====\n");
+                Console.WriteLine($"===== {title} =====\n");
                 Console.WriteLine("You have the max amount of tasks, remove or complete one and try again.");
                 Console.ReadKey(true);
                 return;
@@ -32,7 +33,7 @@ namespace Task_Manager.Classes
             do
             {
                 Console.Clear();
-                Console.WriteLine("===== Add a task =====\n");
+                Console.WriteLine($"===== {title} =====\n");
 
                 Console.Write("Name: ");
                 name = Console.ReadLine();
@@ -41,7 +42,7 @@ namespace Task_Manager.Classes
                 description = Console.ReadLine();
 
                 Console.Clear();
-                Console.WriteLine("===== Add a task =====\n");
+                Console.WriteLine($"===== {title} =====\n");
 
                 isTaskValid = ValidateTaskInput(name, description);
                 if (isTaskValid)
@@ -65,7 +66,6 @@ namespace Task_Manager.Classes
             else
             {
                 DisplayTaskList(title);
-                Console.WriteLine("Press any key to return to menu");
                 Console.ReadKey(true);
             }
         }
@@ -157,11 +157,12 @@ namespace Task_Manager.Classes
         {
             int selectedIndex = 0;
             ConsoleKey key;
+            string title = "Delete a task";
 
             if (_tasks.Count == 0)
             {
                 Console.Clear();
-                Console.WriteLine("===== Delete a task =====\n");
+                Console.WriteLine($"===== {title} =====\n");
                 Console.WriteLine("No tasks to delete, press any key to return to menu");
                 Console.ReadKey(true);
                 return;
@@ -169,25 +170,7 @@ namespace Task_Manager.Classes
 
             do
             {
-                Console.Clear();
-                Console.WriteLine("===== Delete a task =====\n");
-
-                for (int i = 0; i < _tasks.Count; i++)
-                {
-                    if (selectedIndex == i)
-                    {
-                        Console.Write("> ");
-                    }
-                    else
-                    {
-                        Console.Write("  ");
-                    }
-
-                    var task = _tasks[i];
-                    Console.WriteLine($"[{i + 1}] Name: {task.Name}");
-                    Console.WriteLine($"      Description: {task.Description}\n");
-                    Console.WriteLine($"{new string('-', 40)}\n");
-                }
+                DisplayTaskList(title, selectedIndex);
 
                 // Read a key without echoing into console
                 ConsoleKeyInfo keyInfo = Console.ReadKey();
@@ -262,6 +245,7 @@ namespace Task_Manager.Classes
                 Console.WriteLine(selectedIndex >= 0 ? $"      Description: {task.Description}\n" : $"    Description: {task.Description}\n");
                 Console.WriteLine($"{new string('-', 40)}\n");
             }
+            Console.WriteLine(selectedIndex >= 0 ? "Press ENTER to return to menu" : "Press any key to return to menu");
         }
 
     }
