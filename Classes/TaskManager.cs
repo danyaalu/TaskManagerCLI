@@ -140,8 +140,18 @@ namespace Task_Manager.Classes
             Console.Clear();
             Console.WriteLine($"===== {title} =====\n");
             _tasks.RemoveAt(selectedIndex);
-            Console.WriteLine("Task removed successfully, press any key to return to menu");
-            Console.ReadKey(true);
+            string error = "";
+            if (!FileManager.SaveFile(_tasks, out error))
+            {
+                Console.WriteLine($"An error occured: '{error}', press any key to return to menu");
+                Console.ReadKey(true);
+                return;
+            }
+            else
+            {
+                Console.WriteLine("Task removed successfully, press any key to return to menu");
+                Console.ReadKey(true);
+            }
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
