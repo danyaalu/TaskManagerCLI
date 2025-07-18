@@ -39,8 +39,18 @@ namespace Task_Manager.Classes
                 if (isTaskValid)
                 {
                     _tasks.Add(new TaskItem(name, description));
-                    Console.WriteLine("Added new task to list... press any key to return to menu");
-                    Console.ReadKey(true);
+                    string error = "";
+                    if (!FileManager.SaveFile(_tasks, out error))
+                    {
+                        Console.WriteLine($"An error occured: '{error}', press any key to return to menu");
+                        Console.ReadKey(true);
+                        return; 
+                    }
+                    else
+                    {
+                        Console.WriteLine("Added new task to list... press any key to return to menu");
+                        Console.ReadKey(true);
+                    }       
                 }
             } while (!isTaskValid);
         }
