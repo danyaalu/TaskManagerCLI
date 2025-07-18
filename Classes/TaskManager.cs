@@ -140,18 +140,9 @@ namespace Task_Manager.Classes
             Console.Clear();
             Console.WriteLine($"===== {title} =====\n");
             _tasks.RemoveAt(selectedIndex);
-            string error = "";
-            if (!FileManager.SaveFile(_tasks, out error))
-            {
-                Console.WriteLine($"An error occured: '{error}', press any key to return to menu");
-                Console.ReadKey(true);
-                return;
-            }
-            else
-            {
-                Console.WriteLine("Task removed successfully, press any key to return to menu");
-                Console.ReadKey(true);
-            }
+
+            string successMessage = "Task removed successfully";
+            SaveTasks(successMessage);
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
@@ -232,7 +223,7 @@ namespace Task_Manager.Classes
             } while (key != ConsoleKey.Enter);
             return selectedIndex;
         }
-        private static bool SaveTasks(string successMessage)
+        private static void SaveTasks(string successMessage)
         {
             string error = "";
             bool success = FileManager.SaveFile(_tasks, out error);
@@ -248,7 +239,6 @@ namespace Task_Manager.Classes
                 Console.ReadKey(true);
 
             }
-            return success;
         }
     }
 }
