@@ -18,18 +18,21 @@ namespace Task_Manager.Classes
 
             return tasks;
         }
-        public static bool SaveFile(List<TaskItem> tasks)
+        public static bool SaveFile(List<TaskItem> tasks, out string errorMsg)
         {
+            errorMsg = "";
             string json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
             try
             {
+                Directory.CreateDirectory("data");
                 using (StreamWriter sw = new StreamWriter("data/tasks.json"))
                 {
                     sw.Write(json);
                 }
             }
-            catch
+            catch (Exception ex)    
             {
+                errorMsg = ex.Message;
                 return false;
             }
 
