@@ -222,7 +222,7 @@ namespace Task_Manager.Classes
 
             if (!success)
             {
-                Console.WriteLine($"An error occurred: '{error}, press any key to return to menu");
+                Console.WriteLine($"An error occurred: '{error}', press any key to return to menu");
                 Console.ReadKey(true);
             }
             else
