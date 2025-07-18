@@ -39,18 +39,9 @@ namespace Task_Manager.Classes
                 if (isTaskValid)
                 {
                     _tasks.Add(new TaskItem(name, description));
-                    string error = "";
-                    if (!FileManager.SaveFile(_tasks, out error))
-                    {
-                        Console.WriteLine($"An error occured: '{error}', press any key to return to menu");
-                        Console.ReadKey(true);
-                        return;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Added new task to list... press any key to return to menu");
-                        Console.ReadKey(true);
-                    }
+
+                    string successMessage = "Added new task to list";
+                    SaveTasks(successMessage);
                 }
             } while (!isTaskValid);
         }
@@ -117,8 +108,9 @@ namespace Task_Manager.Classes
                 {
                     _tasks[selectedIndex].Name = newName;
                     _tasks[selectedIndex].Description = newDescription;
-                    Console.WriteLine("Task updated, press any key to return to menu");
-                    Console.ReadKey(true);
+
+                    string successMessage = "Task updated successfully";
+                    SaveTasks(successMessage);
                 }
             } while (!isTaskValid);
         }
