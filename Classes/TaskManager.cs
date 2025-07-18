@@ -5,7 +5,7 @@ namespace Task_Manager.Classes
 {
     internal class TaskManager
     {
-        private static List<TaskItem> _tasks = new List<TaskItem>();
+        private static List<TaskItem> _tasks = FileManager.LoadFile();
         private const int MaxAmountOfTasks = 5;
         public static void AddTask()
         {
@@ -222,7 +222,7 @@ namespace Task_Manager.Classes
 
             if (!success)
             {
-                Console.WriteLine($"An error occurred: '{error}, press any key to return to menu");
+                Console.WriteLine($"An error occurred: '{error}', press any key to return to menu");
                 Console.ReadKey(true);
             }
             else

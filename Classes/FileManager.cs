@@ -14,10 +14,14 @@ namespace Task_Manager.Classes
         {
             List<TaskItem> tasks = new List<TaskItem>();
 
-
+            using (StreamReader sr = new StreamReader("data/tasks.json"))
+            {
+                string json = sr.ReadToEnd();
+                tasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
+            }
 
             return tasks;
-        }
+        }   
         public static bool SaveFile(List<TaskItem> tasks, out string errorMsg)
         {
             errorMsg = "";
