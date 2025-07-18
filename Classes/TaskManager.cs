@@ -44,13 +44,13 @@ namespace Task_Manager.Classes
                     {
                         Console.WriteLine($"An error occured: '{error}', press any key to return to menu");
                         Console.ReadKey(true);
-                        return; 
+                        return;
                     }
                     else
                     {
                         Console.WriteLine("Added new task to list... press any key to return to menu");
                         Console.ReadKey(true);
-                    }       
+                    }
                 }
             } while (!isTaskValid);
         }
@@ -231,6 +231,24 @@ namespace Task_Manager.Classes
                 }
             } while (key != ConsoleKey.Enter);
             return selectedIndex;
+        }
+        private static bool SaveTasks(string successMessage)
+        {
+            string error = "";
+            bool success = FileManager.SaveFile(_tasks, out error);
+
+            if (!success)
+            {
+                Console.WriteLine($"An error occurred: '{error}, press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Console.WriteLine($"{successMessage}, press any key to return to menu");
+                Console.ReadKey(true);
+
+            }
+            return success;
         }
     }
 }
