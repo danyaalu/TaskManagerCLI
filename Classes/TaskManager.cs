@@ -5,8 +5,33 @@ namespace Task_Manager.Classes
 {
     internal class TaskManager
     {
-        private static List<TaskItem> _tasks = FileManager.LoadFile();
+        private static List<TaskItem> _tasks = null;
         private const int MaxAmountOfTasks = 5;
+        static TaskManager()
+        {
+            string errorMsg = "";
+            _tasks = FileManager.LoadFile(out errorMsg);
+
+            if (errorMsg != "")
+            {
+                Console.WriteLine("===== Error =====\n");
+                Console.WriteLine(errorMsg);
+                Console.WriteLine("Press ENTER to close program, or any other key to continue");
+
+                ConsoleKey key;
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.Enter)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.Clear();
+                }
+            }
+        }
         public static void AddTask()
         {
             string title = "Add a task";

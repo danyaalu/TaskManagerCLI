@@ -1,23 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 
 namespace Task_Manager.Classes
 {
     internal class FileManager
     {
-        public static List<TaskItem> LoadFile()
+        private const string filePath = "data/tasks.json";
+        public static List<TaskItem> LoadFile(out string errorMsg)
         {
+            errorMsg = "";
             List<TaskItem> tasks = new List<TaskItem>();
 
-            using (StreamReader sr = new StreamReader("data/tasks.json"))
+            if (!File.Exists(filePath))
             {
-                string json = sr.ReadToEnd();
-                tasks = JsonSerializer.Deserialize<List<TaskItem>>(json);
+                return tasks;
+            }
+
+            try
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                if (fileInfo.Length == 0)
+                {
+                    return tasks;
+                }
+
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string json = sr.ReadToEnd();
+                    if (string.IsNullOrWhiteSpace(json))
+                    {
+                        return tasks;
+                    }
+                    var deserialised = JsonSerializer.Deserialize<List<TaskItem>>(json);
+                    if (deserialised != null)
+                    {
+                        tasks = deserialised;
+                    }
+                }
+            }
+            catch (JsonException ex)
+            {
+                errorMsg = $"Invalid JSON format: {ex.Message}";
+            }
+            catch (IOException ex)
+            {
+                errorMsg = $"File access error: {ex.Message}";
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                errorMsg = $"Permission denied: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                errorMsg = $"Unexpected error: {ex.Message}";
             }
 
             return tasks;
@@ -29,7 +66,7 @@ namespace Task_Manager.Classes
             try
             {
                 Directory.CreateDirectory("data");
-                using (StreamWriter sw = new StreamWriter("data/tasks.json"))
+                using (StreamWriter sw = new StreamWriter(filePath))
                 {
                     sw.Write(json);
                 }
