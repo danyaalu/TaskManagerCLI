@@ -5,8 +5,33 @@ namespace Task_Manager.Classes
 {
     internal class TaskManager
     {
-        private static List<TaskItem> _tasks = new List<TaskItem>();
+        private static List<TaskItem> _tasks = null;
         private const int MaxAmountOfTasks = 5;
+        static TaskManager()
+        {
+            string errorMsg = "";
+            _tasks = FileManager.LoadFile(out errorMsg);
+
+            if (errorMsg != "")
+            {
+                Console.WriteLine("===== Error =====\n");
+                Console.WriteLine(errorMsg);
+                Console.WriteLine("Press ENTER to close program, or any other key to continue");
+
+                ConsoleKey key;
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
+                key = keyInfo.Key;
+
+                if (key == ConsoleKey.Enter)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.Clear();
+                }
+            }
+        }
         public static void AddTask()
         {
             string title = "Add a task";
@@ -39,8 +64,9 @@ namespace Task_Manager.Classes
                 if (isTaskValid)
                 {
                     _tasks.Add(new TaskItem(name, description));
-                    Console.WriteLine("Added new task to list... press any key to return to menu");
-                    Console.ReadKey(true);
+
+                    string successMessage = "Added new task to list";
+                    SaveTasks(successMessage);
                 }
             } while (!isTaskValid);
         }
@@ -107,8 +133,9 @@ namespace Task_Manager.Classes
                 {
                     _tasks[selectedIndex].Name = newName;
                     _tasks[selectedIndex].Description = newDescription;
-                    Console.WriteLine("Task updated, press any key to return to menu");
-                    Console.ReadKey(true);
+
+                    string successMessage = "Task updated successfully";
+                    SaveTasks(successMessage);
                 }
             } while (!isTaskValid);
         }
@@ -130,8 +157,9 @@ namespace Task_Manager.Classes
             Console.Clear();
             Console.WriteLine($"===== {title} =====\n");
             _tasks.RemoveAt(selectedIndex);
-            Console.WriteLine("Task removed successfully, press any key to return to menu");
-            Console.ReadKey(true);
+
+            string successMessage = "Task removed successfully";
+            SaveTasks(successMessage);
         }
         private static bool ValidateTaskInput(string name, string description, int selectedIndex = -1)
         {
@@ -211,6 +239,22 @@ namespace Task_Manager.Classes
                 }
             } while (key != ConsoleKey.Enter);
             return selectedIndex;
+        }
+        private static void SaveTasks(string successMessage)
+        {
+            string error = "";
+            bool success = FileManager.SaveFile(_tasks, out error);
+
+            if (!success)
+            {
+                Console.WriteLine($"An error occurred: '{error}', press any key to return to menu");
+                Console.ReadKey(true);
+            }
+            else
+            {
+                Console.WriteLine($"{successMessage}, press any key to return to menu");
+                Console.ReadKey(true);
+            }
         }
     }
 }
