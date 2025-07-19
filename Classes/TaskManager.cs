@@ -254,7 +254,6 @@ namespace Task_Manager.Classes
             {
                 Console.WriteLine($"{successMessage}, press any key to return to menu");
                 Console.ReadKey(true);
-
             }
         }
     }
